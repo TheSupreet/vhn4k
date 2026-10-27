@@ -12,7 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { getJson } from "../api";
-import { mw, oneDecimal, signedMw, signedPct, stamp, tooltipProps, tooltipValue } from "../format";
+import { axis, mw, oneDecimal, signedMw, signedPct, stamp, tooltipProps, tooltipValue } from "../format";
 
 export default function AccuracyPage() {
   const [state, setState] = useState({ status: "loading" });
@@ -83,11 +83,11 @@ export default function AccuracyPage() {
           <div className="chart">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={accuracy.byPeriod} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-                <CartesianGrid stroke="#2a3644" vertical={false} />
-                <XAxis dataKey="label" tick={{ fill: "#8b9bb0", fontSize: 11 }} interval={3} />
-                <YAxis tick={{ fill: "#8b9bb0", fontSize: 11 }} width={56} />
+                <CartesianGrid stroke={axis.grid} vertical={false} />
+                <XAxis dataKey="label" tick={{ fill: axis.tick, fontSize: 11 }} interval={3} />
+                <YAxis tick={{ fill: axis.tick, fontSize: 11 }} width={56} />
                 <Tooltip {...tooltipProps} formatter={(value, name) => [tooltipValue(value), name]} />
-                <Bar dataKey="maeMw" name="MAE MW" fill="#e8a15a" isAnimationActive={false} />
+                <Bar dataKey="maeMw" name="MAE MW" fill={axis.error} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -97,11 +97,11 @@ export default function AccuracyPage() {
           <div className="chart">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={accuracy.histogram} margin={{ top: 8, right: 8, left: 0, bottom: 28 }}>
-                <CartesianGrid stroke="#2a3644" vertical={false} />
-                <XAxis dataKey="label" tick={{ fill: "#8b9bb0", fontSize: 10 }} interval={0} angle={-35} textAnchor="end" height={48} />
-                <YAxis tick={{ fill: "#8b9bb0", fontSize: 11 }} width={40} allowDecimals={false} />
+                <CartesianGrid stroke={axis.grid} vertical={false} />
+                <XAxis dataKey="label" tick={{ fill: axis.tick, fontSize: 10 }} interval={0} angle={-35} textAnchor="end" height={48} />
+                <YAxis tick={{ fill: axis.tick, fontSize: 11 }} width={40} allowDecimals={false} />
                 <Tooltip {...tooltipProps} />
-                <Bar dataKey="count" name="Half-hours" fill="#3ddec4" isAnimationActive={false} />
+                <Bar dataKey="count" name="Half-hours" fill={axis.forecast} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -113,21 +113,21 @@ export default function AccuracyPage() {
         <div className="chart short">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={series.points} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-              <CartesianGrid stroke="#2a3644" vertical={false} />
+              <CartesianGrid stroke={axis.grid} vertical={false} />
               <XAxis
                 dataKey="startTime"
-                tick={{ fill: "#8b9bb0", fontSize: 11 }}
+                tick={{ fill: axis.tick, fontSize: 11 }}
                 interval={47}
                 tickFormatter={(value) => (value && value.slice(11, 16) === "00:00" ? value.slice(8, 10) : "")}
               />
-              <YAxis tick={{ fill: "#8b9bb0", fontSize: 11 }} width={56} />
+              <YAxis tick={{ fill: axis.tick, fontSize: 11 }} width={56} />
               <Tooltip
                 {...tooltipProps}
                 labelFormatter={(value) => value}
                 formatter={(value, name) => [tooltipValue(value), name]}
               />
               <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Line dataKey="errorMw" name="Error MW" stroke="#e8a15a" dot={false} strokeWidth={1} isAnimationActive={false} />
+              <Line dataKey="errorMw" name="Error MW" stroke={axis.error} dot={false} strokeWidth={1} isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </div>

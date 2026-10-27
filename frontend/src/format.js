@@ -1,18 +1,25 @@
-export function gw(mw) {
-  if (mw == null || Number.isNaN(Number(mw))) return "—";
-  return (Number(mw) / 1000).toFixed(2);
+export function gw(value) {
+  if (value == null || Number.isNaN(Number(value))) return "—";
+  return (Math.abs(Number(value)) / 1000).toFixed(2);
 }
 
-export function signedGw(mw) {
-  if (mw == null || Number.isNaN(Number(mw))) return "—";
-  const value = Number(mw) / 1000;
-  const sign = value > 0 ? "+" : "";
-  return sign + value.toFixed(2);
+export function signedGw(value) {
+  if (value == null || Number.isNaN(Number(value))) return "—";
+  const number = Number(value) / 1000;
+  const sign = number > 0 ? "+" : "";
+  return sign + number.toFixed(2);
 }
 
 export function mw(value) {
   if (value == null || Number.isNaN(Number(value))) return "—";
   return Math.round(Number(value)).toLocaleString("en-GB");
+}
+
+export function plainMw(value) {
+  if (value == null || Number.isNaN(Number(value))) return "—";
+  const rounded = Math.round(Number(value));
+  const sign = rounded < 0 ? "−" : "";
+  return sign + Math.abs(rounded).toLocaleString("en-GB");
 }
 
 export function signedMw(value) {
@@ -27,6 +34,11 @@ export function signedPct(value) {
   const number = Number(value);
   const sign = number > 0 ? "+" : "";
   return `${sign}${number.toFixed(1)}%`;
+}
+
+export function absPct(value) {
+  if (value == null || Number.isNaN(Number(value))) return "—";
+  return `${Math.abs(Number(value)).toFixed(2)}%`;
 }
 
 export function oneDecimal(value) {
@@ -52,19 +64,32 @@ export function errorTone(value) {
   return Number(value) > 0 ? "high" : "low";
 }
 
+export const axis = {
+  grid: "#e8eef5",
+  tick: "#64748b",
+  actual: "#16a34a",
+  forecast: "#0f766e",
+  error: "#f97316",
+  low: "#16a34a",
+};
+
 export const tooltipProps = {
   contentStyle: {
-    background: "#12181f",
-    border: "1px solid #2a3644",
-    borderRadius: 0,
+    background: "#ffffff",
+    border: "1px solid #e2e8f0",
+    borderRadius: 8,
     fontSize: 12,
-    fontFamily: '"Cascadia Mono", ui-monospace, Consolas, monospace',
+    fontFamily: '"Segoe UI", system-ui, sans-serif',
   },
-  labelStyle: { color: "#e6edf3" },
-  itemStyle: { color: "#e6edf3" },
+  labelStyle: { color: "#10233c" },
+  itemStyle: { color: "#1e293b" },
 };
 
 export function tooltipValue(value) {
   if (value == null || Number.isNaN(Number(value))) return "—";
   return Math.round(Number(value)).toLocaleString("en-GB");
+}
+
+export function axisMw(value) {
+  return Number(value).toLocaleString("en-GB");
 }
